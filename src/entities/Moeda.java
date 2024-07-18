@@ -12,9 +12,7 @@ public abstract class Moeda {
         this.valor = valor;
     }
 
-    public String info() {
-        return "Moeda: " + this.getClass().getSimpleName() + String.format("\nValor = %,.2f", valor);
-    }
+    public abstract String info();
 
     public abstract double converter();
 

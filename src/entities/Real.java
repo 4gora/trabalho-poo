@@ -8,7 +8,7 @@ public class Real extends Moeda {
     }
     @Override
     public String info() {
-        return "Moeda: " + this.getClass().getSimpleName() + String.format("\nValor = R$ %,.2f", valor);
+        return "Moeda: Real" + String.format("\nValor = R$ %,.2f", valor);
 
     }
     @Override
