@@ -2,10 +2,10 @@ import java.util.Scanner;
 
 public class App {
 
-    private static Cofrinho cofrinho = new Cofrinho();
-
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+
+        Cofrinho cofrinho = new Cofrinho();
 
         int escolha;
 
@@ -23,12 +23,15 @@ public class App {
                     break;
                 case 2:
                     Menu.escolherMoeda();
+                    break;
 
                 case 3:
-                    cofrinho.listagemMoedas();
+                    cofrinho.listagemMoedas(sc);
+                    break;
 
                 case 4:
                     cofrinho.totalConvertido();
+                    break;
 
                 default:
                     break;
