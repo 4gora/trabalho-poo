@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Menu {
 
     // https://stackoverflow.com/questions/2979383/java-clear-the-console
@@ -9,12 +11,11 @@ public class Menu {
     public static void menuPrincipal() {
         System.out.println("Qual das ações deseja fazer?");
         System.out.println(
-            "1 - Adicionar moeda\n" +
-            "2 - Remover moeda\n" +
-            "3 - listar todas as moedas\n" +
-            "4 - calcular total do cofrinho em R$\n" + 
-            "5 - sair"
-        );
+                "1 - Adicionar moeda\n" +
+                        "2 - Remover moeda\n" +
+                        "3 - listar todas as moedas\n" +
+                        "4 - calcular total do cofrinho em R$\n" +
+                        "5 - sair");
         System.out.print("Resposta: ");
     }
 
@@ -28,9 +29,15 @@ public class Menu {
         System.out.print("Resposta: ");
 
     }
-    
+
     public static void valorMoeda() {
         System.out.print("Insira o valor da moeda: ");
     }
-    
+
+    public static void pressioneParaSair(Scanner sc) {
+        System.out.println();
+        System.out.println("Pressione enter para voltar.");
+        sc.nextLine();
+    }
+
 }
