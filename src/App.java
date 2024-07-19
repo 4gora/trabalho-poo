@@ -18,11 +18,10 @@ public class App {
 
             switch (escolha) {
                 case 1:
-                    cofrinho.adicionar(sc);
-
+                    cofrinho.adicionar(sc);                  
                     break;
                 case 2:
-                    Menu.escolherMoeda();
+                    cofrinho.remover(sc);
                     break;
 
                 case 3:
@@ -38,7 +37,7 @@ public class App {
             }
 
         } while (escolha != 5);
-
+        Menu.clearScreen();
         System.out.println("Saindo do sistema...");
 
         sc.close();
