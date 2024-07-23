@@ -1,7 +1,6 @@
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.InputMismatchException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
@@ -14,6 +13,7 @@ import entities.Real;
 public class Cofrinho {
 
     private List<Moeda> listaMoedas = new ArrayList<>();
+    List<Integer> possiveisEscolhas = Arrays.asList(1, 2, 3);
 
     public Cofrinho() {
         this.listaMoedas = new ArrayList<>();
@@ -21,7 +21,6 @@ public class Cofrinho {
 
     public void adicionar(Scanner sc) {
         Menu.clearScreen();
-        List<Integer> possiveisEscolhas = Arrays.asList(1, 2, 3);
         int escolha = 0;
 
         do {
@@ -36,71 +35,128 @@ public class Cofrinho {
                     Menu.clearScreen();
                     System.out.println("Tipo de moeda inválido. Tente novamente...");
                     continue;
-                } else {
-                    Menu.valorMoeda();
-                    double valorMoeda = Double.parseDouble(sc.nextLine());
+                }
+                double valorMoeda = 0.0;
+                boolean valorValido = false;
 
-                    Moeda moeda = null;
-                    switch (escolha) {
-                        case 1:
-                            moeda = new Real(valorMoeda);
-                            break;
-                        case 2:
-                            moeda = new Dolar(valorMoeda);
-                            break;
-                        case 3:
-                            moeda = new Euro(valorMoeda);
-                            break;
+                do {
+                    try {
+                        Menu.valorMoeda();
+                        valorMoeda = Double.parseDouble(sc.nextLine());
 
+                        if (valorMoeda >= 0) {
+                            valorValido = true;
+                        } else {
+                            Menu.clearScreen();
+                            System.out.println("O valor deve ser positivo. Tente novamente..");
+                        }
+
+                    } catch (NumberFormatException e) {
+                        Menu.clearScreen();
+                        System.out.println("Valor inválido. Por favor, insira um valor válido.");
                     }
+                } while (!valorValido);
 
-                    listaMoedas.add(moeda);
-                    System.out.println("Moeda adicionada.");
-                    Menu.pressioneParaSair(sc);
-                    // melhorar lógica para validar se a escolha é válida.
+                Moeda moeda = null;
+                switch (escolha) {
+                    case 1:
+                        moeda = new Real(valorMoeda);
+                        break;
+                    case 2:
+                        moeda = new Dolar(valorMoeda);
+                        break;
+                    case 3:
+                        moeda = new Euro(valorMoeda);
+                        break;
 
                 }
 
-            } catch (InputMismatchException e) {
-                System.out.println("Entrada inválida. Tente novamente..");
+                listaMoedas.add(moeda);
+                System.out.println("Moeda adicionada.");
+                Menu.pressioneParaSair(sc);
+                // melhorar lógica para validar se a escolha é válida.
+
+            } catch (NumberFormatException e) {
+                Menu.clearScreen();
+                System.out.println("Entrada inválida. Tente novamente.");
+                Menu.pressioneParaSair(sc);
+            } catch (Exception e) {
+                Menu.clearScreen();
+                System.out.println("Ocorreu um erro inesperado: " + e.getMessage());
+                Menu.pressioneParaSair(sc);
+
             }
 
         } while (!possiveisEscolhas.contains(escolha));
     }
 
     public void remover(Scanner sc) {
-        Menu.escolherMoeda();
-        int escolha = Integer.parseInt(sc.nextLine());
+        Menu.clearScreen();
+        int escolha = 0;
 
-        Iterator<Moeda> iterator = listaMoedas.iterator();
+        do {
+            try {
+                if (listaMoedas.size() < 1) { // verifica se há moedas no cofrinho.
+                    System.out.println("Não há moedas no cofrinho.");
+                    break;
+                }
 
-        while (iterator.hasNext()) {
+                Menu.escolherMoeda();
+                escolha = Integer.parseInt(sc.nextLine());
 
-            Moeda moeda = iterator.next();
+                if (!possiveisEscolhas.contains(escolha)) { // verifica se a escolha do usuário está correta.
+                    Menu.clearScreen();
+                    System.out.println("Tipo de moeda inválido. Tente novamente...");
+                    continue;
 
-            switch (escolha) {
-                case 1:
-                    if (moeda instanceof Real) {
-                        iterator.remove();
+                } else {
+                    Iterator<Moeda> iterator = listaMoedas.iterator();
+
+                    while (iterator.hasNext()) {
+
+                        Moeda moeda = iterator.next();
+
+                        switch (escolha) {
+                            case 1:
+                                if (moeda instanceof Real) {
+                                    iterator.remove();
+                                    System.out.println("Todos as moedas de Real foram removidas.");
+                                }
+                                break;
+                            case 2:
+                                if (moeda instanceof Dolar) {
+                                    iterator.remove();
+                                    System.out.println("Todos as moedas de Dolar foram removidas.");
+                                }
+                                break;
+                            case 3:
+                                if (moeda instanceof Euro) {
+                                    iterator.remove();
+                                    System.out.println("Todos as moedas de Euro foram removidas.");
+                                }
+                                break;
+                            default:
+                                System.out.println("Escolha inválida. Tente novamente..");
+                                break;
+
+                        }
+
                     }
-                    break;
-                case 2:
-                    if (moeda instanceof Dolar) {
-                        iterator.remove();
-                    }
-                    break;
-                case 3:
-                    if (moeda instanceof Euro) {
-                        iterator.remove();
-                    }
-                    break;
-                default:
-                    System.out.println("Escolha inválida. Tente novamente..");
-                    break;
+                    Menu.pressioneParaSair(sc);
+                    // melhorar lógica para validar se a escolha é válida.
+                }
+            } catch (NumberFormatException e) {
+                Menu.clearScreen();
+                System.out.println("Entrada inválida. Tente novamente.");
+                Menu.pressioneParaSair(sc);
+            } catch (Exception e) {
+                Menu.clearScreen();
+                System.out.println("Ocorreu um erro inesperado: " + e.getMessage());
+                Menu.pressioneParaSair(sc);
+
             }
-        }
 
-        sc.nextLine();
+        } while (!possiveisEscolhas.contains(escolha));
     }
 
     public void listagemMoedas(Scanner sc) {
@@ -126,14 +182,17 @@ public class Cofrinho {
 
     }
 
-    public double totalConvertido() {
-        double aux = 0.0;
+    public void totalConvertido(Scanner sc) {
+        Menu.clearScreen();
+        double soma = 0.0;
 
         for (Moeda m : listaMoedas) {
-            aux += m.converter();
+            soma += m.converter();
         }
 
-        return aux;
+        System.out.printf("Total do cofrinho convertido em Reais:%nR$ %,.2f%n", soma);
+
+        Menu.pressioneParaSair(sc);
 
     }
 
